@@ -1,0 +1,169 @@
+<div *ngIf="user; else loginForm">
+  <!-- ======== sidebar-nav start =========== -->
+  <aside class="sidebar-nav-wrapper" [ngClass]="{'active': navActive}">
+    <div class="navbar-logo">
+      <a href="index.html">
+        <img src="assets/images/logo/vti.svg" alt="logo" />
+        <!-- <h4> {{getTitle}} </h4> -->
+      </a>
+    </div>
+    <nav class="sidebar-nav">
+      <ul>
+
+        <li class="nav-item">
+          <a (click)="menuToggle()" routerLink="dashboard">
+            <span class="icon">
+              <svg width="22" height="22" viewBox="0 0 22 22">
+                <path d="M17.4167 4.58333V6.41667H13.75V4.58333H17.4167ZM8.25 4.58333V10.0833H4.58333V4.58333H8.25ZM17.4167 11.9167V17.4167H13.75V11.9167H17.4167ZM8.25 15.5833V17.4167H4.58333V15.5833H8.25ZM19.25 2.75H11.9167V8.25H19.25V2.75ZM10.0833 2.75H2.75V11.9167H10.0833V2.75ZM19.25 10.0833H11.9167V19.25H19.25V10.0833ZM10.0833 13.75H2.75V19.25H10.0833V13.75Z"/>
+              </svg>
+            </span>
+            <span class="text">Dashboard</span>
+          </a>
+        </li>
+
+        <span class="divider"><hr /></span>
+        
+        <li class="nav-item nav-item-has-children" *ngIf="rule.USER_MGMT">
+          <a style="cursor: pointer;" class="collapsed" data-bs-toggle="collapse" data-bs-target="#ddmenu_4" aria-controls="ddmenu_4" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="icon">
+              <i class="lni lni-cog"></i>
+            </span>
+            <span class="text">Administrator</span>
+          </a>
+          <ul id="ddmenu_4" class="collapse dropdown-nav">
+            <li>
+              <a (click)="menuToggle()" routerLink="user-management"> User Management </a>
+            </li>
+            <li>
+              <a (click)="menuToggle()" routerLink="rule-management"> Rule Management </a>
+            </li>
+          </ul>
+        </li>
+
+      </ul>
+    </nav>
+  </aside>
+  <div class="overlay" (click)="menuToggle()" [ngClass]="{'active': navActive}"></div>
+  <!-- ======== sidebar-nav end =========== -->
+
+  <!-- ======== main-wrapper start =========== -->
+  <main class="main-wrapper" [ngClass]="{'active': navActive}">
+    <!-- ========== header start ========== -->
+    <header class="header">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-5 col-md-5 col-6">
+            <div class="header-left d-flex align-items-center">
+              <div class="menu-toggle-btn mr-20">
+                <button id="menu-toggle" (click)="menuToggle()" class="main-btn primary-btn btn-hover">
+                  <i class="lni lni-menu"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-7 col-md-7 col-6">
+            <div class="header-right">
+              <!-- profile start -->
+              <div class="profile-box ml-15">
+                <button class="dropdown-toggle bg-transparent border-0" type="button" id="profile" data-bs-toggle="dropdown" aria-expanded="false">
+                  <div class="profile-info">
+                    <div class="info">
+                      <p *ngIf="user">
+                        <font class="brname">{{user.FIRST_NAME}}  {{user.LAST_NAME}}</font> <br />
+                        <font style="font-size: .75rem;">{{user.COMPANY_NAME}}</font>&nbsp;
+                        <!-- <font style="font-size: .75rem;">{{user.COMPANY_NAME}}</font>&nbsp; -->
+                        <!-- <img src={{getBadge(companyRevenue)}} data-toggle="tooltip" data-placement="right" title="Partner"> -->
+                      </p>
+                      <div class="image">
+                        <img
+                          src="{{apiurl+user.PICTURE}}"
+                          alt=""
+                        />
+                        <span class="status"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <i class="lni lni-chevron-down"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profile">
+                  <li>
+                    <a routerLink="myprofile/{{user.USERNAME}}" style="cursor: pointer;">
+                      <i class="lni lni-user"></i> View Profile
+                    </a>
+                  </li>
+                  <li>
+                    <a style="cursor: pointer;" (click)="logout()"> <i class="lni lni-exit"></i> Sign Out </a>
+                  </li>
+                </ul>
+              </div>
+              <!-- profile end -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- ========== header end ========== -->
+
+    <!-- ========== section start ========== -->
+    <section class="section">
+      <div class="container-fluid">
+        
+        <!-- ========== title-wrapper start ========== -->
+        <!-- <div class="title-wrapper pt-30">
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              <div class="titlemb-30">
+                <h2>{{pageTitle}}</h2>
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <!-- ========== title-wrapper end ========== -->
+
+        <!-- Render Page -->
+        <span class="divider"><hr /></span>
+        <router-outlet></router-outlet>
+      </div>
+      <!-- end container -->
+    </section>
+    <!-- ========== section end ========== -->
+  
+    <!-- ========== footer start =========== -->
+  <footer class="footer">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6 order-last order-md-first">
+          <div class="copyright text-center text-md-start">
+            <p class="text-sm">
+              Developed by
+              <a routerLink="/" rel="nofollow">
+                {{devName}}&nbsp;
+              </a>
+              <span *ngIf="!isProduction">( Dev Release )</span>
+            </p>
+          </div>
+        </div>
+        <!-- end col-->
+        <div class="col-md-6">
+          <div class="terms d-flex justify-content-center justify-content-md-end">
+            <a href="#0" class="text-sm">Terms & Conditions</a>
+            <a href="#0" class="text-sm ml-15">Privacy & Policy</a>
+          </div>
+        </div>
+      </div>
+      <!-- end row -->
+    </div>
+    <!-- end container -->
+  </footer>
+  <!-- ========== footer end =========== -->
+  </main>
+
+</div>
+<ng-template #loginForm>
+  <main class="main-wrapper">
+  <div class="text-center">
+    <router-outlet></router-outlet>
+  </div>
+  
+</main>
+</ng-template>

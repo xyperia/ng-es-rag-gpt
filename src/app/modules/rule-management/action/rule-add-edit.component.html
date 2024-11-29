@@ -1,0 +1,88 @@
+<div class="title d-flex align-items-center flex-wrap mb-30">
+    <div *ngIf="!id; else editMode;">
+        <h4 class="mr-40">New Rule</h4>
+    </div>
+    <ng-template #editMode>
+        <h4 class="mr-40">Edit Rule</h4>
+    </ng-template>
+    
+    <button routerLink="/rule-management" class="main-btn primary-btn rounded-btn btn-hover btn-sm">
+      <i class="lni lni-chevron-left mr-5"></i>Back</button>
+  </div>
+
+<div class="row">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="col-lg-6">
+            <!-- <h1 *ngIf="isAddMode">Add User</h1>
+            <h1 *ngIf="!isAddMode">Edit User</h1> -->
+            <div class="card-style mb-30">
+                <h5>Rule Description</h5>
+                <span class="divider"><hr /></span>
+                
+                <!-- <div class="input-style-1">
+                    <label>Role ID</label>
+                    <input type="text" formControlName="RULE_ID" [ngClass]="{ 'is-invalid': submitted && f.RULE_ID.errors }" />
+                    <div *ngIf="submitted && f.RULE_ID.errors">
+                        <div *ngIf="f.RULE_ID.errors.required" style="color:red">*rule id required</div>
+                    </div>
+                </div> -->
+
+                <div class="input-style-1">
+                    <label>
+                        Role Name
+                    </label>
+                    <input type="text" formControlName="RULE_NAME" [ngClass]="{ 'is-invalid': submitted && f.RULE_NAME.errors }" />
+                    <div *ngIf="submitted && f.RULE_NAME.errors">
+                        <div *ngIf="f.RULE_NAME.errors.required" style="color:red">*rule name required</div>
+                    </div>
+                </div>
+
+                <span class="divider"><hr /></span>
+                <h5>Rule Privileges</h5>
+                <span class="divider"><hr /></span>
+
+                <div class="form-check form-switch toggle-switch mb-30">
+                    <input class="form-check-input" formControlName="USER_MGMT" type="checkbox" id="toggleSwitch1"/>
+                    <label class="form-check-label" for="toggleSwitch1">User Management</label>
+                </div>
+
+                <div class="form-check form-switch toggle-switch mb-30">
+                    <input class="form-check-input" formControlName="ACTIVITY_MGMT" type="checkbox" id="toggleSwitch1"/>
+                    <label class="form-check-label" for="toggleSwitch1">Activity Management</label>
+                </div>
+
+                <div class="form-check form-switch toggle-switch mb-30">
+                    <input class="form-check-input" formControlName="CONTENT_MGMT" type="checkbox" id="toggleSwitch1"/>
+                    <label class="form-check-label" for="toggleSwitch1">Content Management</label>
+                </div>
+
+                <div class="form-check form-switch toggle-switch mb-30">
+                    <input class="form-check-input" formControlName="LEADERBOARDS_PAGE" type="checkbox" id="toggleSwitch1"/>
+                    <label class="form-check-label" for="toggleSwitch1">Access Leaderboards</label>
+                </div>
+
+                <div class="form-check form-switch toggle-switch mb-30">
+                    <input class="form-check-input" formControlName="PIPELINES_PAGE" type="checkbox" id="toggleSwitch1"/>
+                    <label class="form-check-label" for="toggleSwitch1">View Pipelines</label>
+                </div>
+
+                <div class="form-check form-switch toggle-switch mb-30">
+                    <input class="form-check-input" formControlName="REVENUE_LEADERBOARD" type="checkbox" id="toggleSwitch1"/>
+                    <label class="form-check-label" for="toggleSwitch1">View BP's Revenue Leaderboards</label>
+                </div>
+
+                <span class="divider"><hr /></span>
+                <div>
+                    <button class="main-btn primary-btn-outline rounded-btn btn-hover btn-sm" routerLink="/rule-management">
+                        Cancel
+                    </button>&nbsp;
+                    <button [disabled]="loading" class="main-btn primary-btn rounded-btn btn-hover btn-sm">
+                        <span *ngIf="loading"></span>
+                        &nbsp;Save&nbsp;
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>

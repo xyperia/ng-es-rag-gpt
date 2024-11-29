@@ -1,0 +1,146 @@
+﻿<div class="title d-flex align-items-center flex-wrap mb-30">
+  <h4 class="mr-40">Users Management</h4>
+  <button routerLink="add" class="main-btn primary-btn btn-hover btn-sm">
+    <i class="lni lni-plus mr-5"></i> Add </button>
+</div>
+
+<div class="tables-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+        <div class="card-style mb-30">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                  <!-- <h6 class="mb-10">User Management</h6> -->
+                </div>
+            </div>
+            <div class="d-flex flex-wrap justify-content-between align-items-center py-3">
+              <div class="left">
+                <p>Show <span>
+                  
+                  <div class="select-style-3">
+                    <div class="select-position">
+                        <select class="light-bg" [(ngModel)]="count">
+                            <option> 10 </option>
+                            <option> 20 </option>
+                            <option> 50 </option> 
+                        </select>
+                    </div>
+                  </div>
+                  </span>
+                  entries
+                </p>
+                </div>
+              <div class="right">
+                <div class="table-search d-flex">
+                  <form action="#">
+                    <input type="text" [(ngModel)]="filterdata" name="something" placeholder="Search..." />
+                    <button><i class="lni lni-search-alt"></i></button>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            
+
+            <div class="table-wrapper table-responsive">
+            <table class="table">
+                <thead>
+                <tr *ngIf="!mobileMode">
+                    <th><h6>Full Name</h6></th>
+                    <th><h6>Username</h6></th>
+                    <th><h6>Email</h6></th>
+                    <th><h6>Company</h6></th>
+                    <th><h6>Action</h6></th>
+                </tr>
+
+                <tr *ngIf="mobileMode">
+                    <th><h6>Email</h6></th>
+                    <th><h6>Action</h6></th>
+                </tr>
+                <!-- end table row-->
+                </thead>
+                <tbody *ngIf="mobileMode">
+                    <tr *ngFor="let user of users | filter:filterdata | paginate: { itemsPerPage: count, currentPage: p } ">
+                      <td>
+                        <a href="/profile/{{user.USERNAME}}">{{user.FIRST_NAME}} {{user.LAST_NAME}}</a>
+                      </td>
+                      <td>
+                        <button class="main-btn " id="moreAction1" data-bs-toggle="dropdown" aria-expanded="false">
+                          <i class="lni lni-more-alt"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreAction1">
+                          <li class="dropdown-item">
+                            <a (click)="confirmBox('confirm',user)" class="text-gray">Resend Email</a>
+                          </li>
+                          <li class="dropdown-item">
+                            <a routerLink="edit/{{user.ID}}" style="cursor: pointer;" class="text-gray">Edit</a>
+                          </li>
+                          <li class="dropdown-item">
+                            <a (click)="confirmBox('delete',user)" class="text-gray">Delete</a>
+                          </li>
+                        </ul>
+                      </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="!mobileMode">
+
+                <tr *ngFor="let user of users | filter:filterdata | paginate: { itemsPerPage: count, currentPage: p } ">
+                    <td class="min-width">
+                    <div class="lead">
+                        <div class="lead-image">
+                        <img
+                            src="{{apiurl+user.PICTURE}}"
+                            alt=""
+                        />
+                        </div>
+                        <div class="lead-text">
+                        <p><a href="/profile/{{user.USERNAME}}">{{user.FIRST_NAME}} {{user.LAST_NAME}}</a></p>
+                        </div>
+                    </div>
+                    </td>
+                    <td class="min-width">
+                      <p> <a data-toggle="tooltip">{{user.USERNAME}}</a></p>
+                    </td>
+                    <td class="min-width">
+                      <p>{{user.EMAIL}}</p>
+                    </td>
+                    <td class="min-width">
+                        <p> <a data-toggle="tooltip" title="ID: {{user.COMPANY_ID}}" style="cursor: pointer;">{{user.COMPANY_NAME}}</a></p>
+                      </td>
+                    <td>
+                    <div class="action">
+                        <button (click)="confirmBox('confirm',user)" style="cursor: pointer;" class="text-primary">
+                            <i class="lni lni-reply"></i>
+                        </button>&nbsp;
+                        <button routerLink="edit/{{user.ID}}" style="cursor: pointer;" class="text-primary">
+                            <i class="lni lni-pencil-alt"></i>
+                        </button>&nbsp;
+                        <button (click)="confirmBox('delete',user)" [disabled]="user.isDeleting" class="text-danger">
+                            <!-- <span *ngIf="user.isDeleting">Deleting</span> -->
+                            <span *ngIf="!user.isDeleting"><i class="lni lni-trash-can"></i></span>
+                        </button>
+                    </div>
+                    </td>
+                </tr>
+                <!-- end table row -->
+
+                </tbody>
+            </table>
+            <!-- end table -->
+            </div>
+            <div class="pt-10 d-flex flex-wrap justify-content-between">
+              <div class="left">
+                <p class="text-sm text-gray">Total {{countdata}} users</p>
+              </div>
+              <!--Including the pagination control.-->
+              <div class="text-right">
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+              </div>
+            </div>
+        </div>
+        <!-- end card -->
+        </div>
+        <!-- end col -->
+    </div>
+<!-- end row -->
+</div>

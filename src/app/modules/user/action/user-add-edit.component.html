@@ -1,0 +1,160 @@
+<div class="title d-flex align-items-center flex-wrap mb-30">
+    <h4 *ngIf="isAddMode" class="mr-40">New Users</h4>
+    <h4 *ngIf="!isAddMode" class="mr-40">Edit Users</h4>
+    <button routerLink="/user-management" class="main-btn primary-btn rounded-btn btn-hover btn-sm">
+      <i class="lni lni-chevron-left mr-5"></i>Back</button>
+  </div>
+
+<div class="row">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="col-lg-6">
+            <!-- <h1 *ngIf="isAddMode">Add User</h1>
+            <h1 *ngIf="!isAddMode">Edit User</h1> -->
+            <div class="card-style mb-30">
+                <h5>User Description</h5>
+                <span class="divider"><hr /></span>
+
+                <div class="input-style-1" *ngIf="isAddMode">
+                    <label>Company Name</label>
+                    <input type="text" formControlName="COMPANY_NAME" />
+                </div>
+
+                <div class="input-style-1" *ngIf="isAddMode">
+                    <label>Username</label>
+                    <input type="text" formControlName="USERNAME" />
+                </div>
+
+                <div class="input-style-1" *ngIf="isAddMode">
+                    <label>Email</label>
+                    <input type="text" formControlName="EMAIL" />
+                </div>
+
+                <div class="input-style-1" *ngIf="isAddMode">
+                    <label for="PASSWORD">
+                        Password
+                        <em *ngIf="isAddMode">(Default Password is email)</em>
+                    </label>
+                    <input type="password" formControlName="PASSWORD" [ngClass]="{ 'is-invalid': submitted && f.PASSWORD.errors }" />
+                    <div *ngIf="submitted && f.PASSWORD.errors">
+                        <div *ngIf="f.PASSWORD.errors.required" style="color:red">Password is required</div>
+                        <div *ngIf="f.PASSWORD.errors.minlength" style="color:red">Password must be at least 6 characters</div>
+                    </div>
+                </div>
+
+                <div *ngIf="isVTI">
+                    <div class="input-style-1">
+                        <label>First Name</label>
+                        <input type="text" formControlName="FIRST_NAME" [ngClass]="{ 'is-invalid': submitted && f.FIRST_NAME.errors }" />
+                        <div *ngIf="submitted && f.FIRST_NAME.errors">
+                            <div *ngIf="f.FIRST_NAME.errors.required" style="color:red">*First Name required</div>
+                        </div>
+                    </div>
+    
+                    <div class="input-style-1">
+                        <label>Last Name</label>
+                        <input type="text" formControlName="LAST_NAME" [ngClass]="{ 'is-invalid': submitted && f.LAST_NAME.errors }"/>
+                        <div *ngIf="submitted && f.LAST_NAME.errors">
+                            <div *ngIf="f.LAST_NAME.errors.required" style="color:red">*Last Name required</div>
+                        </div>
+                    </div>
+    
+                    <div class="input-style-1">
+                        <label>Phone No.</label>
+                        <input type="text" formControlName="PHONE" [ngClass]="{ 'is-invalid': submitted && f.PHONE.errors }"/>
+                        <div *ngIf="submitted && f.PHONE.errors">
+                            <div *ngIf="f.PHONE.errors.required" style="color:red">*Phone No. required</div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="!isVTI">
+                    <div class="input-style-1">
+                        <label>First Name</label>
+                        <input type="text" formControlName="FIRST_NAME" [ngClass]="{ 'is-invalid': submitted && f.FIRST_NAME.errors }" />
+                        <div *ngIf="submitted && f.FIRST_NAME.errors">
+                            <div *ngIf="f.FIRST_NAME.errors.required" style="color:red">*First Name required</div>
+                        </div>
+                    </div>
+    
+                    <div class="input-style-1">
+                        <label>Last Name</label>
+                        <input type="text" formControlName="LAST_NAME" [ngClass]="{ 'is-invalid': submitted && f.LAST_NAME.errors }"/>
+                        <div *ngIf="submitted && f.LAST_NAME.errors">
+                            <div *ngIf="f.LAST_NAME.errors.required" style="color:red">*Last Name required</div>
+                        </div>
+                    </div>
+    
+                    <div class="input-style-1">
+                        <label>Phone No.</label>
+                        <input type="text" formControlName="PHONE" [ngClass]="{ 'is-invalid': submitted && f.PHONE.errors }"/>
+                        <div *ngIf="submitted && f.PHONE.errors">
+                            <div *ngIf="f.PHONE.errors.required" style="color:red">*Phone No. required</div>
+                        </div>
+                    </div>
+                </div>
+               
+
+                <div class="input-style-1">
+                    <label>Bio</label>
+                    <textarea formControlName="BIO" [ngClass]="{ 'is-invalid': submitted && f.BIO.errors }" placeholder="Message" rows="5"></textarea>
+                </div>
+
+                <div class="input-style-1">
+                    <label>Select Image</label>
+                    <input #imageInput
+                           type="file"
+                           accept="image/*"
+                           (change)="processFile(imageInput)">
+                </div>
+
+                  
+                  <div *ngIf="selectedFile" class="img-preview-container">
+                  
+                    <div class="img-preview{{selectedFile.status === 'fail' ? '-error' : ''}}"
+                         [ngStyle]="{'background-image': 'url('+ selectedFile.src + ')'}">
+                    </div>
+                  
+                    <div *ngIf="selectedFile.pending" class="img-loading-overlay">
+                      <div class="img-spinning-circle"></div>
+                    </div>
+                  
+                    <div *ngIf="selectedFile.status === 'ok'" class="alert alert-success"> Image Uploaded Succesfuly!</div>
+                    <div *ngIf="selectedFile.status === 'fail'" class="alert alert-danger"> Image Upload Failed!</div>
+                  </div>
+
+
+                <div class="input-style-1">
+                    <label>Picture</label>
+                    <input type="text" formControlName="PICTURE" [ngClass]="{ 'is-invalid': submitted && f.PICTURE.errors }"/>
+                    <div *ngIf="submitted && f.PICTURE.errors">
+                        <div *ngIf="f.PICTURE.errors.required" style="color:red">*Picture required</div>
+                    </div>
+                </div>
+
+                <div class="select-style-1">
+                    <label>Role</label>
+                    <div class="select-position">
+                      <select formControlName="RULE_ID">
+                        <option *ngFor="let rule of rules" value="{{rule.RULE_ID}}">{{rule.RULE_NAME}}</option>
+                      </select>
+                    </div>
+                </div>
+
+                <!-- <div style="visibility: hidden;" class="input-style-1">
+                    <label>Company ID</label>
+                    <input type="text" [(ngModel)]="selectedBPName" formControlName="COMPANY_NAME" />
+                </div> -->
+
+                <div>
+                    <button class="main-btn primary-btn-outline rounded-btn btn-hover btn-sm" routerLink="/user-management">
+                        Cancel
+                    </button>&nbsp;
+                    <button [disabled]="loading" class="main-btn primary-btn rounded-btn btn-hover btn-sm">
+                        <span *ngIf="loading"></span>
+                        &nbsp;Save&nbsp;
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
